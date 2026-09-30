@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>GManage — Smart College Planner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="particles"></div>
+
+<section id="authScreen" class="auth-screen">
+  <div class="auth-orb orb1"></div><div class="auth-orb orb2"></div>
+  <div class="auth-card glass">
+    <div class="logo"><span>✓</span><div>GManage<small>SMART COLLEGE PLANNER</small></div></div>
+    <div class="auth-copy">
+      <p class="eyebrow">WELCOME BACK</p>
+      <h1 id="authTitle">Kelola tugas. <span>Lebih teratur.</span></h1>
+      <p id="authSubtitle">Masuk ke dashboard pribadi kamu dan pantau semua deadline kuliah dalam satu tempat.</p>
+    </div>
+    <form id="authForm">
+      <label>Username<input id="authUser" autocomplete="username" placeholder="Masukkan username" required></label>
+      <label>Password<div class="pass"><input id="authPass" type="password" autocomplete="current-password" placeholder="Masukkan password" required><button type="button" id="showPass">◉</button></div></label>
+      <button class="btn primary full" type="submit" id="authSubmit">Masuk ke Dashboard <span>→</span></button>
+    </form>
+    <p class="switch" id="switchAuth">Belum punya akun? <button type="button">Daftar sekarang</button></p>
+    <div class="demo-note">🔒 Demo lokal — data akun & tugas disimpan di browser.</div>
+  </div>
+</section>
+
+<section id="appScreen" class="app hidden">
+  <aside class="sidebar glass">
+    <div class="logo"><span>✓</span><div>GManage<small>SMART COLLEGE PLANNER</small></div></div>
+    <div class="profile">
+      <div class="avatar" id="avatar">U</div>
+      <div><b id="profileName">User</b><small>Mahasiswa</small></div>
+      <span class="online"></span>
+    </div>
+    <nav>
+      <button class="nav active" data-view="dashboard">⌂ <span>Dashboard</span></button>
+      <button class="nav" data-view="all">▣ <span>Semua Tugas</span><b id="navAll">0</b></button>
+      <button class="nav" data-view="pending">◷ <span>Belum Selesai</span><b id="navPending">0</b></button>
+      <button class="nav" data-view="done">✓ <span>Selesai</span><b id="navDone">0</b></button>
+    </nav>
+    <div class="sidebar-bottom">
+      <button class="nav" id="themeBtn">☾ <span>Mode Gelap</span></button>
+      <button class="nav logout" id="logoutBtn">↪ <span>Keluar</span></button>
+    </div>
+  </aside>
+
+  <main>
+    <header class="topbar">
+      <div><p class="eyebrow">MY WORKSPACE</p><h2 id="hello">Selamat datang 👋</h2><p class="muted">Mari selesaikan tugasmu satu per satu.</p></div>
+      <button class="btn primary" id="addBtn">＋ Tambah Tugas</button>
+    </header>
+
+    <section class="hero glass">
+      <div><span class="hero-label">PROGRESS HARI INI</span><h3><span id="progressText">0%</span> tugas sudah selesai</h3><p id="quote">Sedikit demi sedikit, semua akan selesai.</p></div>
+      <div class="progress-ring" id="progressRing"><div><strong id="ringNumber">0%</strong><small>completed</small></div></div>
+    </section>
+
+    <section class="stats">
+      <article class="stat glass"><div class="stat-icon purple">▣</div><div><small>Total Tugas</small><strong data-count="total">0</strong><em>Semua tugas</em></div></article>
+      <article class="stat glass"><div class="stat-icon orange">◷</div><div><small>Belum Selesai</small><strong data-count="pending">0</strong><em>Perlu dikerjakan</em></div></article>
+      <article class="stat glass"><div class="stat-icon green">✓</div><div><small>Selesai</small><strong data-count="done">0</strong><em>Sudah beres</em></div></article>
+      <article class="stat glass"><div class="stat-icon red">⚡</div><div><small>Deadline Dekat</small><strong data-count="urgent">0</strong><em>Dalam 3 hari</em></div></article>
+    </section>
+
+    <section class="section-head">
+      <div><p class="eyebrow">TASK MANAGEMENT</p><h3 id="listTitle">Tugas Terbaru</h3></div>
+      <div class="tools"><div class="search">⌕ <input id="search" placeholder="Cari tugas..."></div><select id="sort"><option value="deadline">Deadline</option><option value="newest">Terbaru</option><option value="priority">Prioritas</option><option value="name">Nama</option></select></div>
+    </section>
+    <section id="taskList" class="task-grid"></section>
+  </main>
+</section>
+
+<div class="modal hidden" id="modal">
+ <div class="modal-box glass">
+  <div class="modal-top"><div><p class="eyebrow">TASK DATABASE</p><h3 id="modalTitle">Tambah Tugas</h3></div><button class="close" id="close">×</button></div>
+  <form id="taskForm">
+   <input type="hidden" id="taskId">
+   <div class="form-grid">
+    <label>Nama Tugas<input id="taskName" required placeholder="Contoh: Project Website"></label>
+    <label>Mata Kuliah<input id="course" required placeholder="Contoh: Pemrograman Web"></label>
+    <label>Deadline<input id="deadline" type="date" required></label>
+    <label>Prioritas<select id="priority"><option value="low">Rendah</option><option value="medium" selected>Sedang</option><option value="high">Tinggi</option></select></label>
+    <label class="wide">Deskripsi<textarea id="description" rows="4" placeholder="Detail tugas..."></textarea></label>
+   </div>
+   <div class="modal-actions"><button type="button" class="btn ghost" id="cancel">Batal</button><button class="btn primary">Simpan Tugas ✦</button></div>
+  </form>
+ </div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
